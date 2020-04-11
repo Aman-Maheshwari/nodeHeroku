@@ -31,14 +31,14 @@
             container.id = 'captcha';
             document.body.appendChild(container);
             var captcha = new firebase.auth.RecaptchaVerifier('captcha', {
-                'size': 'invisible',
+                'size': 'normal',
                 'callback': function(token) {
-                    //callback(token);
-                    onSignInSubmit();
+                    callback(token);
+                    //onSignInSubmit();
                 },
-                //'expired-callback': function() {
-                //    callback('');
-                //}
+                'expired-callback': function() {
+                    callback('');
+                }
             });
             captcha.render().then(function() {
                 captcha.verify();
