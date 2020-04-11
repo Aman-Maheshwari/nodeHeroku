@@ -33,11 +33,12 @@
             var captcha = new firebase.auth.RecaptchaVerifier('captcha', {
                 'size': 'invisible',
                 'callback': function(token) {
-                    callback(token);
+                    //callback(token);
+                    onSignInSubmit();
                 },
-                'expired-callback': function() {
-                    callback('');
-                }
+                //'expired-callback': function() {
+                //    callback('');
+                //}
             });
             captcha.render().then(function() {
                 captcha.verify();
