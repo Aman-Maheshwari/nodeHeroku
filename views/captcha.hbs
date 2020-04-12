@@ -7,12 +7,13 @@
 </head>
 <body>
     <p style="text-align: center; font-size: 1.2em;">Loading,please wait<p/>
-    <button id="continue-btn" style="display:none">Continue to app</button>
+    <button id="continue-btn" style="display:none"></button>
 
     <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
     <script>
       // Initialize Firebase
+      //this is the config file for my databse,replace it with production database of firebase
       var config = {
     apiKey: "AIzaSyC76ppxHaf8fiI7k8FwL0Im4zk90--0VxU",
     authDomain: "umid-9b6d5.firebaseapp.com",
@@ -31,16 +32,17 @@
             container.id = 'captcha';
             document.body.appendChild(container);
             var captcha = new firebase.auth.RecaptchaVerifier('captcha', {
-                'size': 'invisible',
+                'size': 'normal',           //change the size to invisible to hide the recaptcha, remove the expired-callback then
                 'callback': function(token) {
                     callback(token);
                     //onSignInSubmit();
                 },
-                //'expired-callback': function() {
-                  //  callback('');
-                //}
+                'expired-callback': function() {
+                    callback('');
+                }
             });
-            captcha.render().then(function() {
+            captcha.render().then(function(widgetId) {
+                console.log("id=",widgetId) //to check the widgetId
                 captcha.verify();
             });
         }
@@ -50,10 +52,10 @@
             const continueBtn = document.querySelector('#continue-btn');
             console.log(finalUrl);
              continueBtn.onclick = (event)=>{
-                 window.open(finalUrl,'_blank')
+            window.open(finalUrl,'_blank')
              }
-            continueBtn.style.display = "block";
-            console.log(token)
+           continueBtn.style.display = "block";
+            console.log("token= ",token)
         }
         document.addEventListener('DOMContentLoaded', function() {
             getToken(sendTokenToApp);
